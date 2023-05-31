@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NamaskarController;
+
+ 
+
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +17,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
 });
+
+
+
+
+
+Route::get('/{str1?}/{str2?}/{str3?}/{str4?}', [NamaskarController::class, 'renderer']);
