@@ -490,7 +490,11 @@ class MemPad
         // $clean = iconv('UTF-8', 'ASCII//TRANSLIT', $string);
 
         // this line was necessary for cyrillic and greek
-        $clean = transliterator_transliterate('Any-Latin; Latin-ASCII', $string);
+        $clean = $string;
+        if (function_exists("transliterator_transliterate") ) {
+            $clean = transliterator_transliterate('Any-Latin; Latin-ASCII', $clean);
+        } 
+        
         $clean = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $clean);
         $clean = preg_replace("/[^a-zA-Z0-9\/_\.|+ -]/", '', $clean);
         $clean = strtolower($clean);
