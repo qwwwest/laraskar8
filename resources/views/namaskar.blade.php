@@ -16,7 +16,7 @@
     }
 
     aside  {
-        
+
         font-size: 2rem;
     }
     aside * {
@@ -31,8 +31,15 @@
 
     aside > ul >li >a, aside > ul >li > ul >li >a {
         font-weight: bold;
-    } 
- 
+    }
+
+    aside a.active {
+
+        color: #000!important;
+        text-decoration: underline;
+
+    }
+
 </style>
   </head>
   <body>
@@ -40,21 +47,20 @@
   <div class="row">
   @if ($sidemenu ?? false)
         <aside class="col-3">
-        @include('sidemenu', ['menuitems' => $sidemenu, 'subsite' => $subsite])
+        @include('sidemenu', ['menuitems' => $sidemenu, 'subsite' => $subsite, 'maxlevels' => 1])
         </aside>
-    @endif     
-     <main  class="col"> 
+    @endif
+     <main  class="col">
      <h1>{{$title}}</h1>
-     {!! $main !!}  
+     {!! $main !!}
      </main>
   </div>
   </div>
-   
- 
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
   </body>
 </html>
 
 
 
- 

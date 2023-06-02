@@ -34,7 +34,7 @@ class MemPad
     // private $mpCurrentPath;
 
     // private $mpNumPages;
-    public function __construct($fileName)
+    public function __construct($fileName, $subFolder="")
     {
         if (!file_exists($fileName)) {
             die($fileName . ' file not found');
@@ -122,6 +122,12 @@ class MemPad
             $pathstr = trim(implode('/', $path), '/');
             $urlstr = trim(implode('/', $url), '/');
 
+
+            if ($subFolder  !== ""   ) {
+                $urlstr =($urlstr === "") ? $subFolder : $subFolder . '/'.$urlstr;
+           }
+
+
             if ($urlstr === "") {
                 $urlstr = "/";
             }
@@ -129,8 +135,10 @@ class MemPad
             // die($urlstr);
 
 
-            $active = strpos($_SERVER['PATH_INFO'] ?? '', '/' . $urlstr) === 0;
-
+            //$active = strpos($_SERVER['PATH_INFO'] ?? '', '/' . $urlstr) === 0;
+            $active = strpos($_SERVER['REQUEST_URI'] ?? '', '/' . $urlstr) === 0
+            &&  '/'.$subFolder  !== $_SERVER['REQUEST_URI'] ;
+            if ($active) echo "/$subFolder  !== $_SERVER[REQUEST_URI] \n";
             /*
             id: the id of the page
             title: the title of the page (in the tree) (ex: "Page 1")
@@ -170,6 +178,7 @@ class MemPad
         }
 
         $this->elts = &$elts;
+
     }
 
     /**
@@ -309,7 +318,7 @@ class MemPad
     }
 
     /**
-     *  
+     *
      * method to retrieve a page given its ID
      * the raw text of that page is returned, null if not found
      * @param  mixed $id
@@ -493,8 +502,8 @@ class MemPad
         $clean = $string;
         if (function_exists("transliterator_transliterate") ) {
             $clean = transliterator_transliterate('Any-Latin; Latin-ASCII', $clean);
-        } 
-        
+        }
+
         $clean = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $clean);
         $clean = preg_replace("/[^a-zA-Z0-9\/_\.|+ -]/", '', $clean);
         $clean = strtolower($clean);
